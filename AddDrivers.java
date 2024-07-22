@@ -177,3 +177,229 @@ public class AddDrivers extends JFrame implements ActionListener{
         }
     }
 }
+/*
+package hotel.management.system;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.sql.*;
+
+public class AddEmployee extends JFrame {
+    JTextField textField, textField_1, textField_3, textField_4, textField_5, textField_6;
+    JComboBox<String> c1;
+
+    public AddEmployee() {
+        // Set the frame properties
+        getContentPane().setForeground(Color.BLUE);
+        getContentPane().setBackground(Color.WHITE);
+        setTitle("ADD EMPLOYEE DETAILS");
+
+        // Close the frame when the user closes the window
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setSize(778, 486);
+        getContentPane().setLayout(null);
+
+        // Add label and text field for employee name
+        JLabel Passportno = new JLabel("NAME");
+        Passportno.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Passportno.setBounds(60, 30, 150, 27);
+        add(Passportno);
+
+        textField = new JTextField();
+        textField.setBounds(200, 30, 150, 27);
+        add(textField);
+
+        // Add Save button
+        JButton Next = new JButton("SAVE");
+        Next.setBounds(200, 420, 150, 30);
+        Next.setBackground(Color.BLACK);
+        Next.setForeground(Color.WHITE);
+        add(Next);
+
+        // Add label and text field for employee age
+        JLabel Pnrno = new JLabel("AGE");
+        Pnrno.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Pnrno.setBounds(60, 80, 150, 27);
+        add(Pnrno);
+
+        textField_1 = new JTextField();
+        textField_1.setBounds(200, 80, 150, 27);
+        add(textField_1);
+
+        // Add label and radio buttons for gender
+        JLabel Gender = new JLabel("GENDER");
+        Gender.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Gender.setBounds(60, 120, 150, 27);
+        add(Gender);
+
+        JRadioButton NewRadioButton = new JRadioButton("MALE");
+        NewRadioButton.setBackground(Color.WHITE);
+        NewRadioButton.setBounds(200, 120, 70, 27);
+        add(NewRadioButton);
+
+        JRadioButton Female = new JRadioButton("FEMALE");
+        Female.setBackground(Color.WHITE);
+        Female.setBounds(280, 120, 70, 27);
+        add(Female);
+
+        // Group the radio buttons to ensure only one can be selected
+        ButtonGroup genderGroup = new ButtonGroup();
+        genderGroup.add(NewRadioButton);
+        genderGroup.add(Female);
+
+        // Add label and combo box for job
+        JLabel Address = new JLabel("JOB");
+        Address.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Address.setBounds(60, 170, 150, 27);
+        add(Address);
+
+        String course[] = { "Front Desk Clerks", "Porters", "Housekeeping", "Kitchen Staff", "Room Service", "Waiter/Waitress", "Manager", "Accountant", "Chef" };
+        c1 = new JComboBox<>(course);
+        c1.setBackground(Color.WHITE);
+        c1.setBounds(200, 170, 150, 30);
+        add(c1);
+
+        // Add label and text field for salary
+        JLabel Nationality = new JLabel("SALARY");
+        Nationality.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Nationality.setBounds(60, 220, 150, 27);
+        add(Nationality);
+
+        textField_3 = new JTextField();
+        textField_3.setBounds(200, 220, 150, 27);
+        add(textField_3);
+
+        // Add label and text field for phone number
+        JLabel Name = new JLabel("PHONE");
+        Name.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Name.setBounds(60, 270, 150, 27);
+        add(Name);
+
+        textField_4 = new JTextField();
+        textField_4.setBounds(200, 270, 150, 27);
+        add(textField_4);
+
+        // Add label and text field for Aadhar number
+        JLabel Phno = new JLabel("AADHAR");
+        Phno.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        Phno.setBounds(60, 320, 150, 27);
+        add(Phno);
+
+        textField_5 = new JTextField();
+        textField_5.setBounds(200, 320, 150, 27);
+        add(textField_5);
+
+        // Add label and text field for email
+        JLabel email = new JLabel("EMAIL");
+        email.setFont(new Font("Tahoma", Font.PLAIN, 17));
+        email.setBounds(60, 370, 150, 27);
+        add(email);
+
+        textField_6 = new JTextField();
+        textField_6.setBounds(200, 370, 150, 27);
+        add(textField_6);
+
+        // Add header label
+        JLabel AddPassengers = new JLabel("ADD EMPLOYEE DETAILS");
+        AddPassengers.setForeground(Color.BLUE);
+        AddPassengers.setFont(new Font("Tahoma", Font.PLAIN, 31));
+        AddPassengers.setBounds(450, 24, 442, 35);
+        add(AddPassengers);
+
+        // Add an image
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("hotel/management/system/icons/tenth.jpg"));
+        Image i3 = i1.getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT);
+        ImageIcon i2 = new ImageIcon(i3);
+        JLabel image = new JLabel(i2);
+        image.setBounds(410, 80, 480, 410);
+        add(image);
+
+        // Add action listener to the Save button to handle input validation and database insertion
+        Next.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                // Get input values
+                String name = textField.getText();
+                String age = textField_1.getText();
+                String salary = textField_3.getText();
+                String phone = textField_4.getText();
+                String aadhar = textField_5.getText();
+                String email = textField_6.getText();
+
+                String gender = null;
+                if (NewRadioButton.isSelected()) {
+                    gender = "male";
+                } else if (Female.isSelected()) {
+                    gender = "female";
+                }
+
+                String job = (String) c1.getSelectedItem();
+
+                // Input validation
+                if (name.isEmpty() || age.isEmpty() || salary.isEmpty() || phone.isEmpty() || aadhar.isEmpty() || email.isEmpty() || gender == null || job == null) {
+                    JOptionPane.showMessageDialog(null, "All fields are required.");
+                    return;
+                }
+
+                try {
+                    Integer.parseInt(age);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid age.");
+                    return;
+                }
+
+                try {
+                    Double.parseDouble(salary);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid salary.");
+                    return;
+                }
+
+                try {
+                    Long.parseLong(phone);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid phone number.");
+                    return;
+                }
+
+                try {
+                    Long.parseLong(aadhar);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid Aadhar number.");
+                    return;
+                }
+
+                // Database insertion using PreparedStatement
+                try {
+                    conn c = new conn();
+                    String str = "INSERT INTO employee (name, age, gender, job, salary, phone, aadhar, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement pst = c.s.prepareStatement(str);
+                    pst.setString(1, name);
+                    pst.setString(2, age);
+                    pst.setString(3, gender);
+                    pst.setString(4, job);
+                    pst.setString(5, salary);
+                    pst.setString(6, phone);
+                    pst.setString(7, aadhar);
+                    pst.setString(8, email);
+
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Employee Added");
+                    setVisible(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        setSize(900, 600);
+        setVisible(true);
+        setLocation(530, 200);
+    }
+
+    public static void main(String[] args) {
+        new AddEmployee();
+    }
+}
+
+*/
